@@ -75,9 +75,21 @@ nav.responsive {
 }
 
 .hero {
+	position: relative;
 	@include flex;
 	@include flex-center;
 	height: 500px;
 	background: color('primary', 'dark');
 	color: #fff;
+
+	video.bg {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		min-width: 100%;
+		min-height: 100%;
+		transform: translateX(-50%) translateY(-50%);
+		z-index: 5000;
+	}
+
 }

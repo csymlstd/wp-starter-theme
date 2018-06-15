@@ -372,6 +372,8 @@ function mb_colors_display( $post ) {
 function acf_load_color_field_choices( $field ) {
   // reset choices
   $field['choices'] = array();
+
+  $field['choices']['transparent'] = 'Transparent';
   // if has rows
   if( have_rows('colors', 'option') ) {
       // while has rows
@@ -405,6 +407,25 @@ function acf_load_gravity_field_choices( $field ) {
 }
 add_filter('acf/load_field/name=select_gravity_form', 'acf_load_gravity_field_choices');
 
+
+/*************************************************************/
+/*   Friendly Block Titles                                  */
+/***********************************************************/
+ 
+function bowtie_layout_title($title, $field, $layout, $i) {
+	if($admin_name = get_sub_field('administrative_name')) {
+		$title = $admin_name;
+	}
+
+	if(get_sub_field('disable_block')) {
+		$title = 'DISABLED: ' . $title;
+	}
+
+	return $title;
+}
+add_filter('acf/fields/flexible_content/layout_title', 'bowtie_layout_title', 10, 4);
+
+
 function add_color_scripts( $hook ) {
 
   global $post;
@@ -426,7 +447,7 @@ function social_shortcode($atts) {
 
 	if(have_rows('social_media', 'option')):
 		while(have_rows('social_media', 'option')): the_row();
-			$output .= '<a href="'.get_sub_field('url').'" class="fa social fa-'.get_sub_field('media').'" title=""></a>';
+			$output .= '<a href="'.get_sub_field('url').'" target="_blank" class="fab social fa-'.get_sub_field('media').'"></a>';
 		endwhile;
 	endif;
 
@@ -461,7 +482,7 @@ function logo_shortcode($atts) {
 	$file = file_get_contents( get_template_directory() . '/assets/images/'.$filename.'.svg' );
 	if(isset($atts['class'])) { $class = $atts['class']; } else { $class = ''; }
 	if($file) {
-		$output .= '<div class="logo '.$atts['type'].'-'.$atts['id'].' '.$class.'">';
+		$output .= '<div class="logo '.$filename.' '.$class.'">';
 
 		$output .= $file;
 

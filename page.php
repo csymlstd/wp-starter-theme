@@ -12,11 +12,12 @@
  * @package bowtie
  */
 
-$background = get_field('background');
+$background = get_field('hero_background_image');
+$background_position = get_field('hero_position') ? get_field('hero_position') : 'center';
 
 get_header(); ?>
 
-<div class="hero <?php print get_field('hero_disabled') ? 'disabled' : ''; ?>">
+<div class="hero <?php print get_field('hero_disabled') ? 'disabled' : null; ?>">
   <div class="row">
 		<?php if(get_field('headline')): ?>
 		<h1><?php the_field('headline'); ?></h1>
@@ -48,7 +49,7 @@ get_header(); ?>
 <?php if($background['type'] == 'image') { ?>
 <style>
 	.hero {
-		background: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.4) 100%), url('<?php print wp_get_attachment_url($background['ID']); ?>') no-repeat center!important;
+		background: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.4) 100%), url('<?php print $background['sizes']['large']; ?>') no-repeat <?php print $background_position; ?>!important;
 		background-size: cover!important;
 	}
 </style>
